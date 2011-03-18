@@ -31,4 +31,21 @@ class Solr_Core {
 		return Solr::$instance;
 	}
 
+	public function add_document(Solr_Document $document, $allow_duplicates = FALSE, $overwrite_pending = TRUE, $overwrite_committed = TRUE)
+	{
+		$documents = array($document);
+		return $this->add_documents($documents, $allow_duplicates, $overwrite_pending, $overwrite_committed);
+	}
+
+	public function add_documents(array $documents, $allow_duplicates = FALSE, $overwrite_pending = TRUE, $overwrite_committed = TRUE)
+	{
+		$request = new Solr_Request_Write();
+		$request->data('add', 'allowDups', $allow_duplicates);
+		$request->data('add', 'overwritePending', $overwrite_pending);
+		$request->data('add', 'overwriteCommitted', $overwrite_committed);
+		$request->data('add', 'doc', $documents);
+
+		return $request->execute();
+	}
+
 }
