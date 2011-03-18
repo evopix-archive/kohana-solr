@@ -47,14 +47,15 @@ class Solr_Core {
 		}
 
 		$request = new Solr_Request_Write();
-		$request->data('add', 'overwrite', $overwrite);
+		$request->overwrite($overwrite);
 
 		if (($commit_within !== NULL) AND ($commit_within > 0))
 		{
-			$request->data('add', 'commitWithin', $commit_within);
+			$request->commit_within($commit_within);
 		}
 
-		$request->data('add', 'doc', $documents);
+		$request->documents($documents);
+		$request->commit(TRUE);
 
 		return $request->execute();
 	}
