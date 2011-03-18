@@ -2,6 +2,9 @@
 /**
  * Solr powered search for the Kohana Framework.
  *
+ * Credit where credit is due:
+ *     Some inspiration taken from <https://github.com/buraks78/Logic-Solr-API>
+ *
  * @package    Solr
  * @author     Brandon Summers <brandon@brandonsummers.name>
  * @copyright  (c) 2011 Brandon Summers
@@ -21,6 +24,7 @@ class Solr_Writer_XML_Core extends Solr_Writer {
 			switch ($data_type)
 			{
 				case 'add':
+				case 'delete':
 
 					$writer->startElement($data_type);
 
@@ -83,15 +87,34 @@ class Solr_Writer_XML_Core extends Solr_Writer {
 					$writer->endElement();
 
 				break;
-				case 'delete':
+				case 'update':
 
+					foreach ($data_value as $name => $values)
+					{
+						$writer->startElement($name);
 
+						if (is_array($values))
+						{
+							foreach ($values as $attribute => $value)
+							{
+								if (is_bool($value))
+								{
+									if ($value)
+									{
+										$value = 'true';
+									}
+									else
+									{
+										$value = 'false';
+									}
+								}
 
-				break;
-				case 'commit':
-				case 'optimize':
+								$writer->writeAttribute($attribute, $value);
+							}
+						}
 
-
+						$writer->endElement();
+					}
 
 				break;
 				case 'rollback':
