@@ -31,18 +31,29 @@ class Solr_Core {
 		return Solr::$instance;
 	}
 
-	public function add_document(Solr_Document $document, $allow_duplicates = FALSE, $overwrite_pending = TRUE, $overwrite_committed = TRUE)
+	/**
+	 * Adds document(s) to the Solr index.
+	 *
+	 * @param   mixed    $documents      single document or an array of documents
+	 * @param   bool     $overwrite      if TRUE newer documents will replace previously added documents with the same uniqueKey
+	 * @param   integer  $commit_within  number of milliseconds within which to add the documents to the index
+	 * @return  mixed
+	 */
+	public function add($documents, $overwrite = TRUE, $commit_within = NULL)
 	{
-		$documents = array($document);
-		return $this->add_documents($documents, $allow_duplicates, $overwrite_pending, $overwrite_committed);
-	}
+		if ( ! is_array($documents))
+		{
+			$documents = array($documents);
+		}
 
-	public function add_documents(array $documents, $allow_duplicates = FALSE, $overwrite_pending = TRUE, $overwrite_committed = TRUE)
-	{
 		$request = new Solr_Request_Write();
-		$request->data('add', 'allowDups', $allow_duplicates);
-		$request->data('add', 'overwritePending', $overwrite_pending);
-		$request->data('add', 'overwriteCommitted', $overwrite_committed);
+		$request->data('add', 'overwrite', $overwrite);
+
+		if (($commit_within !== NULL) AND ($commit_within > 0))
+		{
+			$request->data('add', 'commitWithin', $commit_within);
+		}
+
 		$request->data('add', 'doc', $documents);
 
 		return $request->execute();
