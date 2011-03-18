@@ -272,7 +272,7 @@ abstract class Solr_Request_Core implements Http_Request {
 	 * @param   mixed   $value  value for the data
 	 * @return  mixed
 	 */
-	public function data($type, $name, $value = NULL)
+	protected function _data($type, $name, $value = NULL)
 	{
 		if ($value === NULL)
 			return Arr::path($this->_data, $type.'.'.$name);
