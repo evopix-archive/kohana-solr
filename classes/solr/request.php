@@ -7,4 +7,4 @@
  * @copyright  (c) 2011 Brandon Summers
  * @license    MIT
  */
-class Solr_Request extends Solr_Request_Core {}
+abstract class Solr_Request extends Solr_Request_Core {}

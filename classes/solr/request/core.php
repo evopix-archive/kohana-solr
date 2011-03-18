@@ -7,7 +7,7 @@
  * @copyright  (c) 2011 Brandon Summers
  * @license    MIT
  */
-class Solr_Request_Core implements Http_Request {
+abstract class Solr_Request_Core implements Http_Request {
 
 	/**
 	 * @var  string  method: GET, POST, PUT, DELETE, HEAD, etc
@@ -55,6 +55,16 @@ class Solr_Request_Core implements Http_Request {
 	protected $_client;
 
 	/**
+	 * @var  string  uri to the servlet that handles this request
+	 */
+	protected $_handler;
+
+	/**
+	 * @var  array  array of request data
+	 */
+	protected $_data;
+
+	/**
 	 * Creates a new request object for the given URI.
 	 *
 	 *     $request = new Solr_Request($uri);
@@ -62,21 +72,15 @@ class Solr_Request_Core implements Http_Request {
 	 * If $cache parameter is set, the response for the request will attempt to
 	 * be retrieved from the cache.
 	 *
-	 * @param   string  $uri    URI of the request
-	 * @param   Cache   $cache  Cache to retrieve the request from
 	 * @return  void
-	 * @throws  Solr_Request_Exception
 	 */
-	public function __construct($uri, Cache $cache = NULL)
+	public function __construct()
 	{
 		// Initialise the header
 		$this->_header = new Http_Header(array());
 
-		// Remove trailing slashes and store the URI
-		$this->_uri = trim($uri, '/');
-
 		// Setup the client
-		$this->_client = new Request_Client_External(array('cache' => $cache));
+		$this->_client = new Request_Client_External();
 	}
 
 	/**
@@ -258,6 +262,23 @@ class Solr_Request_Core implements Http_Request {
 			throw new Solr_Request_Exception('Unable to execute :uri without a Kohana_Request_Client', array(':uri', $this->_uri));
 
 		return $this->_client->execute($this);
+	}
+
+	/**
+	 * Sets and gets data for the request.
+	 *
+	 * @param   string  $type   the type of data
+	 * @param   string  $name   name of the data
+	 * @param   mixed   $value  value for the data
+	 * @return  mixed
+	 */
+	public function data($type, $name, $value = NULL)
+	{
+		if ($value === NULL)
+			return Arr::path($this->_data, $type.'.'.$name);
+
+		$this->_data[$type][$name] = $value;
+		return $this;
 	}
 
 }
