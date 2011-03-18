@@ -54,4 +54,58 @@ class Solr_Document_Field_Core {
 		}
 	}
 
+	/**
+	 * Sets and gets the name for the document field.
+	 *
+	 * @param   string   $name  the name for the document field
+	 * @return  mixed
+	 */
+	public function name($name = NULL)
+	{
+		if ( ! $name)
+			return $this->_name;
+
+		$this->_name = $name;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the values for the document field.
+	 *
+	 * @param   mixed   $values  the values for the document field
+	 * @return  mixed
+	 */
+	public function values($values = NULL)
+	{
+		if ( ! $values)
+			return $this->_values;
+
+		if ( ! is_array($values))
+		{
+			$values = array($values);
+		}
+
+		$this->_values = $values;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the boost for the document field.
+	 *
+	 * @param   float   $boost  the boost value for the document field
+	 * @return  mixed
+	 */
+	public function boost($boost = NULL)
+	{
+		if ( ! $boost)
+			return $this->_boost;
+
+		if ((float) $boost > 0.0)
+		{
+			$this->_boost = (float) $boost;
+		}
+
+		return $this;
+	}
+
 }
