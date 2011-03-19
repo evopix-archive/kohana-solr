@@ -19,14 +19,24 @@ class Solr_Request_Write_Core extends Solr_Request {
 	public function __construct()
 	{
 		parent::__construct();
+
+		$writer = (Solr_Request_Write::$writer ? Solr_Request_Write::$writer : Kohana::config('solr.writer'));
+
 		$this->_handler = 'update';
-		$this->_writer = Solr_Writer::factory(Solr_Request_Write::$writer);
+		$this->_get['wt'] = $writer;
+		$this->_writer = Solr_Writer::factory($writer);
 	}
 
 	public function execute()
 	{
 		$data = $this->_writer->compile($this->_data);
-		var_export($data);
+
+		$request = Request::factory($this->_compile_url());
+		$request->method('post');
+		$request->post('stream.body', $data);
+		$response = $request->execute();
+
+		return new Solr_Response_Write($response);
 	}
 
 	/**
