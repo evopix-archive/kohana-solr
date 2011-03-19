@@ -55,6 +55,18 @@ class Solr_Core {
 		}
 
 		$request->documents($documents);
+
+		return $request->execute();
+	}
+
+	/**
+	 * Commits updates to the Solr index.
+	 *
+	 * @return  Response
+	 */
+	public function commit()
+	{
+		$request = new Solr_Request_Write();
 		$request->commit(TRUE);
 
 		return $request->execute();
