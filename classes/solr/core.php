@@ -160,4 +160,18 @@ class Solr_Core {
 		return $request->execute();
 	}
 
+	/**
+	 * Deletes all documents that match the given query.
+	 *
+	 * @param   string    $query  search query for documents to delete
+	 * @return  Response
+	 */
+	public function delete_by_query($query)
+	{
+		$request = new Solr_Request_Write();
+		$request->delete_by_query($query);
+
+		return $request->execute();
+	}
+
 }
