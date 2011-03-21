@@ -174,4 +174,28 @@ class Solr_Core {
 		return $request->execute();
 	}
 
+	/**
+	 * Retrieves all documents that match the given query.
+	 *
+	 * @param   string   $query   raw query string
+	 * @param   integer  $offset  starting offset for documents
+	 * @param   integer  $limit   maximum number of documents to return
+	 * @param   array    $params  array of optional query parameters
+	 * @return  Solr_Response_Read
+	 */
+	public function search($query, $offset = 0, $limit = 10, array $params = NULL)
+	{
+		$request = new Solr_Request_Read();
+		$request->query($query);
+		$request->offset($offset);
+		$request->limit($limit);
+
+		if (is_array($params) AND (count($params) > 0))
+		{
+			$request->params($params);
+		}
+
+		return $request->execute();
+	}
+
 }
