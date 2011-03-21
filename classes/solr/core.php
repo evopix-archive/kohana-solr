@@ -146,4 +146,18 @@ class Solr_Core {
 		return $request->execute();
 	}
 
+	/**
+	 * Deletes a document from the index by id.
+	 *
+	 * @param   string    $id  id of the document to delete
+	 * @return  Response
+	 */
+	public function delete($id)
+	{
+		$request = new Solr_Request_Write();
+		$request->delete($id);
+
+		return $request->execute();
+	}
+
 }
