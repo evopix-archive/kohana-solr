@@ -19,13 +19,11 @@ abstract class Solr_Reader_Core {
 	 *
 	 *     $reader = Request::Solr_Reader($driver);
 	 *
-	 * if $driver isn't specified, the default driver from the config
-	 * will be used.
-	 *
-	 * @param   string  $driver  name of the read driver to use
+	 * @param   string    $driver    name of the read driver to use
+	 * @param   Response  $response  response object to use
 	 * @return  void
 	 */
-	public static function factory($driver, Response $response)
+	public static function factory($driver, Response $response = NULL)
 	{
 		// Set the class name
 		$class = 'Solr_Reader_'.$driver;
@@ -38,7 +36,7 @@ abstract class Solr_Reader_Core {
 	 *
 	 * @param  Response  $response  the response object
 	 */
-	public function __construct(Response $response)
+	public function __construct(Response $response = NULL)
 	{
 		$this->_response = $response;
 	}
