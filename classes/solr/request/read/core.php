@@ -7,4 +7,123 @@
  * @copyright  (c) 2011 Brandon Summers
  * @license    MIT
  */
-class Solr_Request_Read_Core extends Solr_Request {}
+class Solr_Request_Read_Core extends Solr_Request {
+
+	/**
+	 * @var  Solr_Reader  reader instance for format
+	 */
+	protected $_reader;
+
+	/**
+	 * Instantiate the reader and set up some defaults.
+	 *
+	 * @return  void
+	 */
+	public function __construct()
+	{
+		$this->_handler = 'select';
+		$this->_get['wt'] = Solr::$read_response_format;
+		$this->_reader = Solr_Reader::factory(Solr::$read_format);
+	}
+
+	/**
+	 * Executes the write request. Returns a write response.
+	 *
+	 * @return  Solr_Response_Write
+	 */
+	public function execute()
+	{
+		var_export($this->_compile_url());
+		$request = Request::factory($this->_compile_url());
+		$response = $request->execute();
+
+var_export($response->body());
+		return $this->_response = new Solr_Response_Read($response);
+	}
+
+	/**
+	 * Sets and gets the query param for the request.
+	 *
+	 * @param   string  $query  the raw query string
+	 * @return  mixed
+	 */
+	public function query($query = NULL)
+	{
+		if ( ! $query)
+			return Arr::get($this->_get, 'q');
+
+		$this->_get['q'] = $query;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the offset param for the request.
+	 *
+	 * @param   integer  $offset  starting offset for documents
+	 * @return  mixed
+	 */
+	public function offset($offset = NULL)
+	{
+		if ( ! $offset)
+			return Arr::get($this->_get, 'start');
+
+		$this->_get['start'] = $offset;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the limit param for the request.
+	 *
+	 * @param   integer  $limit  maximum number of documents to return
+	 * @return  mixed
+	 */
+	public function limit($limit = NULL)
+	{
+		if ( ! $limit)
+			return Arr::get($this->_get, 'rows');
+
+		$this->_get['rows'] = $limit;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the fields param for the request.
+	 *
+	 * @param   mixed  $fields  list of fields for the request to return
+	 * @return  mixed
+	 */
+	public function fields($fields = NULL)
+	{
+		if ( ! $fields)
+			return Arr::get($this->_get, 'fl');
+
+		if (is_array($fields))
+		{
+			$fields = implode(',', $fields);
+		}
+
+		$this->_get['fl'] = $fields;
+		return $this;
+	}
+
+	/**
+	 * Sets an array of params for the request. Useful for setting a mass
+	 * collection of params.
+	 *
+	 * @param   array  $params  array of params for the request
+	 * @return  Solr_Request_Read
+	 */
+	public function params(array $params)
+	{
+		foreach ($params as $param => $value)
+		{
+			if (method_exists($this, $param))
+			{
+				$this->$param($value);
+			}
+		}
+
+		return $this;
+	}
+
+}
