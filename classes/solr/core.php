@@ -114,4 +114,23 @@ class Solr_Core {
 		return $request->execute();
 	}
 
+	/**
+	 * Optimizes the Solr index.
+	 *
+	 * @param   array     $attributes  array of optimize attributes
+	 * @return  Response
+	 */
+	public function optimize(array $attributes = NULL)
+	{
+		if ($attributes === NULL)
+		{
+			$attributes = TRUE;
+		}
+
+		$request = new Solr_Request_Write();
+		$request->optimize($attributes);
+
+		return $request->execute();
+	}
+
 }
