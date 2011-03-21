@@ -18,14 +18,12 @@ class Solr_Request_Write_Core extends Solr_Request {
 	protected $_writer;
 
 	/**
-	 * Overload construct to instantiate the writer and set upt some defaults.
+	 * Instantiate the writer and set up some defaults.
 	 *
 	 * @return  void
 	 */
 	public function __construct()
 	{
-		parent::__construct();
-
 		$this->_handler = 'update';
 		$this->_get['wt'] = Solr::$write_response_format;
 		$this->_writer = Solr_Writer::factory(Solr::$write_format);
@@ -45,7 +43,7 @@ class Solr_Request_Write_Core extends Solr_Request {
 		$request->post('stream.body', $data);
 		$response = $request->execute();
 
-		return new Solr_Response_Write($response);
+		return $this->_response = new Solr_Response_Write($response);
 	}
 
 	/**
