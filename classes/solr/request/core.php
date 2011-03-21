@@ -10,6 +10,11 @@
 abstract class Solr_Request_Core {
 
 	/**
+	 * @var  string  name of the format to use
+	 */
+	public static $format;
+
+	/**
 	 * @var  Solr_Response  response
 	 */
 	protected $_response;

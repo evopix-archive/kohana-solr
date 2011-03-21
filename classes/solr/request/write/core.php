@@ -13,11 +13,6 @@
 class Solr_Request_Write_Core extends Solr_Request {
 
 	/**
-	 * @var  string  name of the writer to use
-	 */
-	public static $writer;
-
-	/**
 	 * @var  Solr_Writer  writer instance for format
 	 */
 	protected $_writer;
@@ -31,7 +26,7 @@ class Solr_Request_Write_Core extends Solr_Request {
 	{
 		parent::__construct();
 
-		$writer = (Solr_Request_Write::$writer ? Solr_Request_Write::$writer : Kohana::config('solr.writer'));
+		$writer = (Solr_Request_Write::$format ? Solr_Request_Write::$format : Kohana::config('solr.write_format'));
 
 		$this->_handler = 'update';
 		$this->_get['wt'] = $writer;
