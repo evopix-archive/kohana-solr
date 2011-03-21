@@ -56,7 +56,7 @@ abstract class Solr_Request_Core {
 		$query = '';
 		if ( ! empty($this->_get))
 		{
-			$query = '?'.HTTP::www_form_urlencode($this->_get);
+			$query = '?'.http_build_query($this->_get);
 		}
 
 		return 'http://'.Solr::$host.$this->_handler.$query;
