@@ -26,11 +26,9 @@ class Solr_Request_Write_Core extends Solr_Request {
 	{
 		parent::__construct();
 
-		$writer = (Solr_Request_Write::$format ? Solr_Request_Write::$format : Kohana::config('solr.write_format'));
-
 		$this->_handler = 'update';
-		$this->_get['wt'] = $writer;
-		$this->_writer = Solr_Writer::factory($writer);
+		$this->_get['wt'] = Solr::$write_response_format;
+		$this->_writer = Solr_Writer::factory(Solr::$write_format);
 	}
 
 	/**

@@ -10,6 +10,31 @@
 class Solr_Core {
 
 	/**
+	 * @var  string  url of the host to use
+	 */
+	public static $host;
+
+	/**
+	 * @var  string  name of the write format to use
+	 */
+	public static $write_format;
+
+	/**
+	 * @var  string  name of the write response format to use
+	 */
+	public static $write_response_format;
+
+	/**
+	 * @var  string  name of the read format to use
+	 */
+	public static $read_format;
+
+	/**
+	 * @var  string  name of the read response format to use
+	 */
+	public static $read_response_format;
+
+	/**
 	 * @var  Solr  singleton instance of solr
 	 */
 	public static $instance;
@@ -29,6 +54,23 @@ class Solr_Core {
 		}
 
 		return Solr::$instance;
+	}
+
+	/**
+	 * Loads the default config values.
+	 *
+	 * @return  void
+	 */
+	protected function __construct()
+	{
+		foreach (Kohana::config('solr') as $property => $value)
+		{
+			// Only overwrite the property if it hasn't been set
+			if (Solr::$$property === NULL)
+			{
+				Solr::$$property = $value;
+			}
+		}
 	}
 
 	/**

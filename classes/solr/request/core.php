@@ -10,19 +10,9 @@
 abstract class Solr_Request_Core {
 
 	/**
-	 * @var  string  name of the format to use
-	 */
-	public static $format;
-
-	/**
 	 * @var  Solr_Response  response
 	 */
 	protected $_response;
-
-	/**
-	 * @var  string  the Solr host url
-	 */
-	protected $_host;
 
 	/**
 	 * @var array    query parameters
@@ -38,18 +28,6 @@ abstract class Solr_Request_Core {
 	 * @var  array  array of request data
 	 */
 	protected $_data;
-
-	/**
-	 * Creates a new request object for the given URI.
-	 *
-	 *     $request = new Solr_Request();
-	 *
-	 * @return  void
-	 */
-	public function __construct()
-	{
-		$this->_host = Kohana::config('solr.host');
-	}
 
 	/**
 	 * Sets and gets data for the request.
@@ -81,7 +59,7 @@ abstract class Solr_Request_Core {
 			$query = '?'.HTTP::www_form_urlencode($this->_get);
 		}
 
-		return 'http://'.$this->_host.$this->_handler.$query;
+		return 'http://'.Solr::$host.$this->_handler.$query;
 	}
 
 }
