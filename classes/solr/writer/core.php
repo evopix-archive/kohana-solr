@@ -14,20 +14,11 @@ abstract class Solr_Writer_Core {
 	 *
 	 *     $writer = Request::Solr_Writer($driver);
 	 *
-	 * if $driver isn't specified, the default driver from the config
-	 * will be used.
-	 *
 	 * @param   string  $driver  name of the write driver to use
 	 * @return  void
 	 */
-	public static function factory($driver = NULL)
+	public static function factory($driver)
 	{
-		if ($driver === NULL)
-		{
-			// Use the default driver
-			$driver = Kohana::config('solr.writer');
-		}
-
 		// Set the class name
 		$class = 'Solr_Writer_'.$driver;
 
