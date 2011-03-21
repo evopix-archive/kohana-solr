@@ -133,4 +133,17 @@ class Solr_Core {
 		return $request->execute();
 	}
 
+	/**
+	 * Rolls back all add/deletes made to the index since the last commit.
+	 *
+	 * @return  Response
+	 */
+	public function rollback()
+	{
+		$request = new Solr_Request_Write();
+		$request->rollback(TRUE);
+
+		return $request->execute();
+	}
+
 }
