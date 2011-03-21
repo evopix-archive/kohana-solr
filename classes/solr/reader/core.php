@@ -10,6 +10,11 @@
 abstract class Solr_Reader_Core {
 
 	/**
+	 * @var  Response  response object
+	 */
+	protected $_response;
+
+	/**
 	 * Creates a new Solr_Reader object based an the given driver.
 	 *
 	 *     $reader = Request::Solr_Reader($driver);
@@ -20,18 +25,29 @@ abstract class Solr_Reader_Core {
 	 * @param   string  $driver  name of the read driver to use
 	 * @return  void
 	 */
-	public static function factory($driver = NULL)
+	public static function factory($driver, Response $response)
 	{
-		if ($driver === NULL)
-		{
-			// Use the default driver
-			$driver = Kohana::config('solr.reader');
-		}
-
 		// Set the class name
 		$class = 'Solr_Reader_'.$driver;
 
-		return new $class;
+		return new $class($response);
 	}
+
+	/**
+	 * Loads the response object.
+	 *
+	 * @param  Response  $response  the response object
+	 */
+	public function __construct(Response $response)
+	{
+		$this->_response = $response;
+	}
+
+	/**
+	 * Parses the response object into the correct format.
+	 *
+	 * @return  array
+	 */
+	abstract public function parse();
 
 }
