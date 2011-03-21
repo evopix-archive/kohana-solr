@@ -7,4 +7,17 @@
  * @copyright  (c) 2011 Brandon Summers
  * @license    MIT
  */
-class Solr_Reader_JSON_Core extends Solr_Reader {}
+class Solr_Reader_JSON_Core extends Solr_Reader {
+
+	/**
+	 * Parses the json response into an object.
+	 *
+	 * @return  object
+	 */
+	public function parse()
+	{
+		$body = $this->_response->body();
+		return json_decode($body);
+	}
+
+}
