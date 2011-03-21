@@ -9,6 +9,17 @@
  */
 abstract class Solr_Writer_Core {
 
+	/**
+	 * Creates a new Solr_Writer object based an the given driver.
+	 *
+	 *     $writer = Request::Solr_Writer($driver);
+	 *
+	 * if $driver isn't specified, the default driver from the config
+	 * will be used.
+	 *
+	 * @param   string  $driver  name of the write driver to use
+	 * @return  void
+	 */
 	public static function factory($driver = NULL)
 	{
 		if ($driver === NULL)
@@ -23,6 +34,12 @@ abstract class Solr_Writer_Core {
 		return new $class;
 	}
 
+	/**
+	 * Compiles the write data into the proper format and returns it.
+	 *
+	 * @param   array  $data  array of write data
+	 * @return  void
+	 */
 	abstract public function compile(array $data);
 
 }

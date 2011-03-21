@@ -9,6 +9,17 @@
  */
 abstract class Solr_Reader_Core {
 
+	/**
+	 * Creates a new Solr_Reader object based an the given driver.
+	 *
+	 *     $reader = Request::Solr_Reader($driver);
+	 *
+	 * if $driver isn't specified, the default driver from the config
+	 * will be used.
+	 *
+	 * @param   string  $driver  name of the read driver to use
+	 * @return  void
+	 */
 	public static function factory($driver = NULL)
 	{
 		if ($driver === NULL)

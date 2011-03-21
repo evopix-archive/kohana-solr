@@ -12,6 +12,12 @@
  */
 class Solr_Writer_XML_Core extends Solr_Writer {
 
+	/**
+	 * Compiles the write data into XML format and returns it.
+	 *
+	 * @param   array  $data  array of write data
+	 * @return  void
+	 */
 	public function compile(array $data)
 	{
 		$writer = new XMLWriter();

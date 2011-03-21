@@ -12,10 +12,21 @@
  */
 class Solr_Request_Write_Core extends Solr_Request {
 
+	/**
+	 * @var  string  name of the writer to use
+	 */
 	public static $writer;
 
+	/**
+	 * @var  Solr_Writer  writer instance for format
+	 */
 	protected $_writer;
 
+	/**
+	 * Overload construct to instantiate the writer and set upt some defaults.
+	 *
+	 * @return  void
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -27,6 +38,11 @@ class Solr_Request_Write_Core extends Solr_Request {
 		$this->_writer = Solr_Writer::factory($writer);
 	}
 
+	/**
+	 * Executes the write request. Returns a write response.
+	 *
+	 * @return  Solr_Response_Write
+	 */
 	public function execute()
 	{
 		$data = $this->_writer->compile($this->_data);
