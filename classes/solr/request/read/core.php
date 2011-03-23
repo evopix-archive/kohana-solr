@@ -10,6 +10,11 @@
 class Solr_Request_Read_Core extends Solr_Request {
 
 	/**
+	 * @var  array  array of facet query params
+	 */
+	protected $_facet = array();
+
+	/**
 	 * @var  Solr_Reader  reader instance for format
 	 */
 	protected $_reader;
@@ -231,6 +236,301 @@ var_export($response->body());
 			return Arr::get($this->_get, 'explainOther');
 
 		$this->_get['explainOther'] = $query;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.field param for the request.
+	 *
+	 * @param   mixed  $field  name or array of facet fields
+	 * @return  mixed
+	 */
+	public function facet_field($field = NULL)
+	{
+		if ( ! $field)
+			return Arr::get($this->_facet, 'facet.field');
+
+		if ( ! is_array($field))
+		{
+			$field = array($field);
+		}
+
+		$this->_facet['facet.field'] = array_merge((array) $this->_facet['facet.field'], $field);
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.query param for the request.
+	 *
+	 * @param   string  $query  Lucene query for faceting
+	 * @return  mixed
+	 */
+	public function facet_query($query = NULL)
+	{
+		if ( ! $query)
+			return Arr::get($this->_facet, 'facet.query');
+
+		$this->_facet['facet.query'] = $query;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.prefix param for the request.
+	 *
+	 * @param   string  $prefix  prefix to limit the terms on which to facet
+	 * @return  mixed
+	 */
+	public function facet_prefix($prefix = NULL)
+	{
+		if ( ! $prefix)
+			return Arr::get($this->_facet, 'facet.prefix');
+
+		$this->_facet['facet.prefix'] = $prefix;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.sort param for the request.
+	 *
+	 * @param   mixed  $sort  string or array of sort options
+	 * @return  mixed
+	 */
+	public function facet_sort($sort = NULL)
+	{
+		if ( ! $sort)
+			return Arr::get($this->_facet, 'facet.sort');
+
+		$this->_facet['facet.sort'] = $sort;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.limit param for the request.
+	 *
+	 * @param   mixed  $limit  string or array of limit options
+	 * @return  mixed
+	 */
+	public function facet_limit($limit = NULL)
+	{
+		if ( ! $limit)
+			return Arr::get($this->_facet, 'facet.limit');
+
+		$this->_facet['facet.limit'] = $limit;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.offset param for the request.
+	 *
+	 * @param   mixed  $offset  string or array of offset options
+	 * @return  mixed
+	 */
+	public function facet_offset($offset = NULL)
+	{
+		if ( ! $offset)
+			return Arr::get($this->_facet, 'facet.offset');
+
+		$this->_facet['facet.offset'] = $offset;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.mincount param for the request.
+	 *
+	 * @param   mixed  $min_count  string or array of mincount options
+	 * @return  mixed
+	 */
+	public function facet_min_count($min_count = NULL)
+	{
+		if ( ! $min_count)
+			return Arr::get($this->_facet, 'facet.mincount');
+
+		$this->_facet['facet.mincount'] = $min_count;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.missing param for the request.
+	 *
+	 * @param   mixed  $missing  string or array of missing options
+	 * @return  mixed
+	 */
+	public function facet_missing($missing = NULL)
+	{
+		if ( ! $missing)
+			return Arr::get($this->_facet, 'facet.missing');
+
+		$this->_facet['facet.missing'] = $missing;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.method param for the request.
+	 *
+	 * @param   mixed  $method  string or array of method options
+	 * @return  mixed
+	 */
+	public function facet_method($method = NULL)
+	{
+		if ( ! $method)
+			return Arr::get($this->_facet, 'facet.method');
+
+		$this->_facet['facet.method'] = $method;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.enum.cache.minDf param for the request.
+	 *
+	 * @param   mixed  $value  string or array of enum.cache.minDf options
+	 * @return  mixed
+	 */
+	public function facet_enum_cache_min_df($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_facet, 'facet.enum.cache.minDf');
+
+		$this->_facet['facet.enum.cache.minDf'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.range param for the request.
+	 *
+	 * @param   mixed  $field  name or array of field(s) to create range facets for
+	 * @return  mixed
+	 */
+	public function facet_range($field = NULL)
+	{
+		if ( ! $field)
+			return Arr::get($this->_facet, 'facet.range');
+
+		if ( ! is_array($field))
+		{
+			$field = array($field);
+		}
+
+		$this->_facet['facet.range'] = array_merge((array) $this->_facet['facet.range'], $field);
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.range.start param for the request.
+	 *
+	 * @param   mixed  $value  string or array of facet.range.start options
+	 * @return  mixed
+	 */
+	public function facet_range_start($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_facet, 'facet.range.start');
+
+		$this->_facet['facet.range.start'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.range.end param for the request.
+	 *
+	 * @param   mixed  $value  string or array of facet.range.end options
+	 * @return  mixed
+	 */
+	public function facet_range_end($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_facet, 'facet.range.end');
+
+		$this->_facet['facet.range.end'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.range.gap param for the request.
+	 *
+	 * @param   mixed  $value  string or array of facet.range.gap options
+	 * @return  mixed
+	 */
+	public function facet_range_gap($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_facet, 'facet.range.gap');
+
+		$this->_facet['facet.range.gap'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.range.hardend param for the request.
+	 *
+	 * @param   mixed  $value  string or array of facet.range.hardend options
+	 * @return  mixed
+	 */
+	public function facet_range_hardend($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_facet, 'facet.range.hardend');
+
+		$this->_facet['facet.range.hardend'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.range.other param for the request.
+	 *
+	 * @param   mixed  $value  string or array of facet.range.other options
+	 * @return  mixed
+	 */
+	public function facet_range_other($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_facet, 'facet.range.other');
+
+		$this->_facet['facet.range.other'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.range.include param for the request.
+	 *
+	 * @param   mixed  $value  string or array of facet.range.include options
+	 * @return  mixed
+	 */
+	public function facet_range_include($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_facet, 'facet.range.include');
+
+		$this->_facet['facet.range.include'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.pivot param for the request.
+	 *
+	 * @param   array  $fields  array of fields to pivot
+	 * @return  mixed
+	 */
+	public function facet_pivot(array $fields = NULL)
+	{
+		if ( ! $fields)
+			return Arr::get($this->_facet, 'facet.pivot');
+
+		$this->_facet['facet.pivot'] = $fields;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the facet.pivot.mincount param for the request.
+	 *
+	 * @param   integer  $value  minimum number of documents that need to match
+	 * @return  mixed
+	 */
+	public function facet_pivot_min_count($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_facet, 'facet.pivot.mincount');
+
+		$this->_facet['facet.pivot.mincount'] = $value;
 		return $this;
 	}
 
