@@ -20,6 +20,21 @@ class Solr_Request_Read_Core extends Solr_Request {
 	protected $_reader;
 
 	/**
+	 * @var  array  query parameters that can have multiple values
+	 */
+	protected $_multiple_params = array(
+		'fq', 'facet.query', 'facet.field', 'facet.prefix', 'facet.sort',
+		'facet.limit', 'facet.offset', 'facet.mincount', 'facet.missing',
+		'facet.method', 'enum.cache.minDf', 'facet.range', 'facet.range.start',
+		'facet.range.end', 'facet.range.gap', 'facet.range.hardend',
+		'facet.range.other', 'facet.range.include', 'hl.snippets',
+		'hl.fragsize', 'hl.mergeContiguous', 'hl.alternateField',
+		'hl.formatter', 'hl.simple.pre', 'hl.simple.post', 'hl.fragmenter',
+		'hl.useFastVectorHighlighter', 'stats.field', 'stats.facet',
+		'terms.regex.flag',
+	);
+
+	/**
 	 * Instantiate the reader and set up some defaults.
 	 *
 	 * @return  void
