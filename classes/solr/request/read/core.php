@@ -270,7 +270,7 @@ var_export($response->body());
 			$field = array($field);
 		}
 
-		$this->_facet['facet.field'] = array_merge((array) $this->_facet['facet.field'], $field);
+		$this->_facet['facet.field'] = array_merge(Arr::get($this->_facet, 'facet.field', array()), $field);
 		return $this;
 	}
 
@@ -425,7 +425,7 @@ var_export($response->body());
 			$field = array($field);
 		}
 
-		$this->_facet['facet.range'] = array_merge((array) $this->_facet['facet.range'], $field);
+		$this->_facet['facet.range'] = array_merge(Arr::get($this->_facet, 'facet.range', array()), $field);
 		return $this;
 	}
 
