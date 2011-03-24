@@ -10,14 +10,19 @@
 class Solr_Request_Read_Core extends Solr_Request {
 
 	/**
+	 * @var  string  uri to the servlet that handles this request
+	 */
+	protected $_handler = 'select';
+
+	/**
+	 * @var array    query parameters
+	 */
+	protected $_get;
+
+	/**
 	 * @var  array  array of facet query params
 	 */
 	protected $_facet = array();
-
-	/**
-	 * @var  Solr_Reader  reader instance for format
-	 */
-	protected $_reader;
 
 	/**
 	 * @var  array  query parameters that can have multiple values
@@ -35,29 +40,15 @@ class Solr_Request_Read_Core extends Solr_Request {
 	);
 
 	/**
-	 * Instantiate the reader and set up some defaults.
-	 *
-	 * @return  void
-	 */
-	public function __construct()
-	{
-		$this->_handler = 'select';
-		$this->_get['wt'] = Solr::$read_response_format;
-		$this->_reader = Solr_Reader::factory(Solr::$read_format);
-	}
-
-	/**
 	 * Executes the write request. Returns a write response.
 	 *
 	 * @return  Solr_Response_Write
 	 */
 	public function execute()
 	{
-		var_export($this->_compile_url());
 		$request = Request::factory($this->_compile_url());
 		$response = $request->execute();
 
-var_export($response->body());
 		return $this->_response = new Solr_Response_Read($response);
 	}
 

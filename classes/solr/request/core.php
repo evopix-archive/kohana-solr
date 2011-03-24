@@ -15,9 +15,19 @@ abstract class Solr_Request_Core {
 	protected $_response;
 
 	/**
-	 * @var array    query parameters
+	 * @var  string  the Solr host url
 	 */
-	protected $_get;
+	protected $_host;
+
+	/**
+	 * @var  string  the writer type name
+	 */
+	protected $_writer_type = 'xml';
+
+	/**
+	 * @var  string  the reader type name
+	 */
+	protected $_reader_type = 'json';
 
 	/**
 	 * @var  string  uri to the servlet that handles this request
@@ -25,25 +35,26 @@ abstract class Solr_Request_Core {
 	protected $_handler;
 
 	/**
-	 * @var  array  array of request data
-	 */
-	protected $_data;
-
-	/**
-	 * Sets and gets data for the request.
+	 * Sets up required params.
 	 *
-	 * @param   string  $type   the type of data
-	 * @param   string  $name   name of the data
-	 * @param   mixed   $value  value for the data
-	 * @return  mixed
+	 * @param   string  $host    the solr host url
+	 * @param   string  $reader  the read driver to use
+	 * @param   string  $writer  the write driver to use
+	 * @return  void
 	 */
-	protected function _data($type, $name, $value = NULL)
+	public function __construct($host, $reader_type = NULL, $writer_type = NULL)
 	{
-		if ($value === NULL)
-			return Arr::path($this->_data, $type.'.'.$name);
+		$this->_host = $host;
 
-		$this->_data[$type][$name] = $value;
-		return $this;
+		if ($reader_type !== NULL)
+		{
+			$this->_reader_type = $reader_type;
+		}
+
+		if ($writer_type !== NULL)
+		{
+			$this->_writer_type = $writer_type;
+		}
 	}
 
 	/**
@@ -53,13 +64,7 @@ abstract class Solr_Request_Core {
 	 */
 	protected function _compile_url()
 	{
-		$query = '';
-		if ( ! empty($this->_get))
-		{
-			$query = '?'.http_build_query($this->_get);
-		}
-
-		return 'http://'.Solr::$host.$this->_handler.$query;
+		return 'http://'.$this->_host.$this->_handler.'?wt='.$this->_reader_type;
 	}
 
 }

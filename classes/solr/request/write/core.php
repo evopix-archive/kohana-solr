@@ -18,15 +18,44 @@ class Solr_Request_Write_Core extends Solr_Request {
 	protected $_writer;
 
 	/**
-	 * Instantiate the writer and set up some defaults.
+	 * @var  string  uri to the servlet that handles this request
+	 */
+	protected $_handler = 'update';
+
+	/**
+	 * @var  array  array of write data
+	 */
+	protected $_data = array();
+
+	/**
+	 * Overload construct to instantiate a writer for the request.
 	 *
+	 * @param   string  $host    the Solr host url
+	 * @param   string  $reader  the read driver to use
+	 * @param   string  $writer  the write driver to use
 	 * @return  void
 	 */
-	public function __construct()
+	public function __construct($host, $reader_type = NULL, $writer_type = NULL)
 	{
-		$this->_handler = 'update';
-		$this->_get['wt'] = Solr::$write_response_format;
-		$this->_writer = Solr_Writer::factory(Solr::$write_format);
+		parent::__construct($host, $reader_type, $writer_type);
+		$this->_writer = Solr_Writer::factory($this->_writer_type);
+	}
+
+	/**
+	 * Sets and gets data for the request.
+	 *
+	 * @param   string  $type   the type of data
+	 * @param   string  $name   name of the data
+	 * @param   mixed   $value  value for the data
+	 * @return  mixed
+	 */
+	protected function _data($type, $name, $value = NULL)
+	{
+		if ($value === NULL)
+			return Arr::path($this->_data, $type.'.'.$name);
+
+		$this->_data[$type][$name] = $value;
+		return $this;
 	}
 
 	/**
