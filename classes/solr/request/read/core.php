@@ -569,4 +569,83 @@ var_export($response->body());
 		return $this;
 	}
 
+	/**
+	 * Compiles all request parameters into a url encoded string.
+	 *
+	 * @return  string
+	 */
+	protected function _compile_parameters()
+	{
+		$query_string = array();
+
+		if ( ! empty($this->_facet))
+		{
+			$this->_get['facet'] = 'true';
+		}
+
+		$params = array_merge($this->_get, $this->_facet);
+
+		foreach ($params as $name => $value)
+		{
+			// skip empty values
+			if (empty($value))
+			{
+				continue;
+			}
+
+			if (is_array($value))
+			{
+				// can this param have multiple values?
+				if (in_array($name, $this->_multiple_params))
+				{
+					foreach ($value as $field_name => $field_value)
+					{
+						if (is_string($field_name))
+						{
+							// this param overrides a field
+							$query_string[] = 'f.'.$field_name.'.'.$name.'='.rawurlencode($field_value);
+						}
+						else
+						{
+							$query_string[] = $name.'='.rawurlencode($field_value);
+						}
+					}
+				}
+				else
+				{
+					$query_string[] = $name.'='.rawurlencode(implode(',', $value));
+				}
+			}
+			else
+			{
+				if (is_bool($value))
+				{
+					if ($value === TRUE)
+					{
+						$value = 'true';
+					}
+					else
+					{
+						$value = 'false';
+					}
+				}
+
+				$query_string[] = $name.'='.rawurlencode($value);
+			}
+		}
+
+		return implode('&', $query_string);
+	}
+
+	/**
+	 * Returns the full url for the current request.
+	 *
+	 * @return  string
+	 */
+	protected function _compile_url()
+	{
+		$query = '?'.$this->_compile_parameters();
+		return 'http://'.Solr::$host.$this->_handler.$query;
+	}
+
 }
