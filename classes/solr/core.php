@@ -183,8 +183,13 @@ class Solr_Core {
 	 * @param   array    $params  array of optional query parameters
 	 * @return  Solr_Response_Read
 	 */
-	public function search($query, $offset = 0, $limit = 10, array $params = NULL)
+	public function search($query = NULL, $offset = 0, $limit = 10, array $params = NULL)
 	{
+		if ($query === NULL)
+		{
+			return new Solr_Request_Read();
+		}
+
 		$request = new Solr_Request_Read();
 		$request->query($query);
 		$request->offset($offset);
