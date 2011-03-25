@@ -49,7 +49,7 @@ class Solr_Request_Read_Core extends Solr_Request {
 		$request = Request::factory($this->_compile_url());
 		$response = $request->execute();
 
-		return $this->_response = new Solr_Response_Read($response);
+		return $this->_response = new Solr_Response_Read($response, $this->_reader_type);
 	}
 
 	/**

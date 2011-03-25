@@ -24,9 +24,9 @@ class Solr_Response_Core {
 	 *
 	 * @return  void
 	 */
-	public function __construct(Response $response)
+	public function __construct(Response $response, $reader = 'json')
 	{
-		$this->_reader = Solr_Reader::factory(Solr::$write_response_format, $response);
+		$this->_reader = Solr_Reader::factory($reader, $response);
 		$this->_data = $this->_reader->parse();
 	}
 
