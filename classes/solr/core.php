@@ -35,42 +35,52 @@ class Solr_Core {
 	public static $read_response_format;
 
 	/**
-	 * @var  Solr  singleton instance of solr
+	 * @var  array  Solr instances
 	 */
-	public static $instance;
+	public static $instances = array();
 
 	/**
-	 * Solr singleton instance.
+	 * @var  array  configuration parameters
+	 */
+	protected $_config;
+
+	/**
+	 * Get a singleton Solr instance. If a configuration is not specified,
+	 * it will be loaded from the solr configuration file using the same
+	 * group as the name.
 	 *
+	 *     // Load the default Solr instance
 	 *     $solr = Solr::instance();
 	 *
+	 *     // Create a custom configured Solr instance
+	 *     $solr = Solr::instance('custom', $config);
+	 *
+	 * @param   string  $name    instance name
+	 * @param   array   $config  configuration parameters
 	 * @return  Solr
 	 **/
-	public static function instance()
+	public static function instance($name = 'default', array $config = NULL)
 	{
-		if ( ! Solr::$instance)
+		if ( ! isset(Solr::$instances[$name]))
 		{
-			Solr::$instance = new Solr;
+			if ($config === NULL)
+			{
+				$config = Kohana::config('solr')->$name;
+			}
 		}
 
-		return Solr::$instance;
+		return Solr::$instances[$name] = new Solr($config);
 	}
 
 	/**
-	 * Loads the default config values.
+	 * Stores the configuration parameters.
 	 *
+	 * @param   array  $config  configuration parameters
 	 * @return  void
 	 */
-	protected function __construct()
+	protected function __construct($config)
 	{
-		foreach (Kohana::config('solr') as $property => $value)
-		{
-			// Only overwrite the property if it hasn't been set
-			if (Solr::$$property === NULL)
-			{
-				Solr::$$property = $value;
-			}
-		}
+		$this->_config = $config;
 	}
 
 	/**
@@ -88,7 +98,7 @@ class Solr_Core {
 			$documents = array($documents);
 		}
 
-		$request = new Solr_Request_Write();
+		$request = $this->write_open();
 		$request->overwrite($overwrite);
 
 		if (($commit_within !== NULL) AND ($commit_within > 0))
@@ -108,7 +118,7 @@ class Solr_Core {
 	 */
 	public function commit()
 	{
-		$request = new Solr_Request_Write();
+		$request = $this->write_open();
 		$request->commit(TRUE);
 
 		return $request->execute();
@@ -127,7 +137,7 @@ class Solr_Core {
 			$attributes = TRUE;
 		}
 
-		$request = new Solr_Request_Write();
+		$request = $this->write_open();
 		$request->optimize($attributes);
 
 		return $request->execute();
@@ -140,7 +150,7 @@ class Solr_Core {
 	 */
 	public function rollback()
 	{
-		$request = new Solr_Request_Write();
+		$request = $this->write_open();
 		$request->rollback(TRUE);
 
 		return $request->execute();
@@ -154,7 +164,7 @@ class Solr_Core {
 	 */
 	public function delete($id)
 	{
-		$request = new Solr_Request_Write();
+		$request = $this->write_open();
 		$request->delete($id);
 
 		return $request->execute();
@@ -168,7 +178,7 @@ class Solr_Core {
 	 */
 	public function delete_by_query($query)
 	{
-		$request = new Solr_Request_Write();
+		$request = $this->write_open();
 		$request->delete_by_query($query);
 
 		return $request->execute();
@@ -183,14 +193,9 @@ class Solr_Core {
 	 * @param   array    $params  array of optional query parameters
 	 * @return  Solr_Response_Read
 	 */
-	public function search($query = NULL, $offset = 0, $limit = 10, array $params = NULL)
+	public function search($query, $offset = 0, $limit = 10, array $params = NULL)
 	{
-		if ($query === NULL)
-		{
-			return new Solr_Request_Read();
-		}
-
-		$request = new Solr_Request_Read();
+		$request = $this->read_open();
 		$request->query($query);
 		$request->offset($offset);
 		$request->limit($limit);
@@ -201,6 +206,34 @@ class Solr_Core {
 		}
 
 		return $request->execute();
+	}
+
+	/**
+	 * Opens a new read request.
+	 *
+	 * @return  Solr_Request_Read
+	 */
+	public function read_open()
+	{
+		return new Solr_Request_Read(
+			$this->_config['host'],
+			$this->_config['reader'],
+			$this->_config['writer']
+		);
+	}
+
+	/**
+	 * Opens a new write request.
+	 *
+	 * @return  Solr_Request_Write
+	 */
+	public function write_open()
+	{
+		return new Solr_Request_Write(
+			$this->_config['host'],
+			$this->_config['reader'],
+			$this->_config['writer']
+		);
 	}
 
 }
