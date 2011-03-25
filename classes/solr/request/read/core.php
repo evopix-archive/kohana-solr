@@ -635,8 +635,7 @@ class Solr_Request_Read_Core extends Solr_Request {
 	 */
 	protected function _compile_url()
 	{
-		$query = '?'.$this->_compile_parameters();
-		return 'http://'.Solr::$host.$this->_handler.$query;
+		return parent::_compile_url().'&'.$this->_compile_parameters();
 	}
 
 }
