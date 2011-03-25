@@ -25,6 +25,11 @@ class Solr_Request_Read_Core extends Solr_Request {
 	protected $_facet = array();
 
 	/**
+	 * @var  array  array of highlight query params
+	 */
+	protected $_highlight = array();
+
+	/**
 	 * @var  array  query parameters that can have multiple values
 	 */
 	protected $_multiple_params = array(
@@ -537,6 +542,329 @@ class Solr_Request_Read_Core extends Solr_Request {
 			return Arr::get($this->_facet, 'facet.pivot.mincount');
 
 		$this->_facet['facet.pivot.mincount'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the highlighted fields for the request.
+	 *
+	 * @param   mixed  $fields  list of fields to highlight
+	 * @return  mixed
+	 */
+	public function highlight_fields($fields = NULL)
+	{
+		if ( ! $fields)
+			return Arr::get($this->_highlight, 'hl.fl');
+
+		$this->_highlight['hl.fl'] = $fields;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the maximum number of highlighted snippets to generate
+	 * per field for the request.
+	 *
+	 * @param   mixed  $value  maximum number of highlighted snippets
+	 * @return  mixed
+	 */
+	public function highlight_snippets($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.snippets');
+
+		$this->_highlight['hl.snippets'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the size, in characters, of fragments to consider for
+	 * highlighting.
+	 *
+	 * @param   mixed  $value  size of fragments to consider for highlighting
+	 * @return  mixed
+	 */
+	public function highlight_fragsize($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.fragsize');
+
+		$this->_highlight['hl.fragsize'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.mergeContiguous param for the request. If TRUE
+	 * contiguous fragments will be collapsed into a single fragment
+	 *
+	 * @param   mixed  $value  collapsed into a single fragment
+	 * @return  mixed
+	 */
+	public function highlight_merge_contiguous($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.mergeContiguous');
+
+		if ($value === TRUE)
+		{
+			$this->_highlight['hl.mergeContiguous'] = 'true';
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.requireFieldMatch param for the request.
+	 *
+	 * @param   mixed  $value  only highlight fields if the query matched in them
+	 * @return  mixed
+	 */
+	public function highlight_require_field_match($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.requireFieldMatch');
+
+		if ($value === TRUE)
+		{
+			$this->_highlight['hl.requireFieldMatch'] = 'true';
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.maxAnalyzedChars param for the request.
+	 *
+	 * @param   mixed  $value  number of characters
+	 * @return  mixed
+	 */
+	public function highlight_max_analyzed_chars($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.maxAnalyzedChars');
+
+		$this->_highlight['hl.maxAnalyzedChars'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.alternateField param for the request.
+	 *
+	 * @param   mixed  $value  field name
+	 * @return  mixed
+	 */
+	public function highlight_alternate_field($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.alternateField');
+
+		$this->_highlight['hl.alternateField'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.maxAlternateFieldLength param for the request.
+	 *
+	 * @param   mixed  $value  number of characters
+	 * @return  mixed
+	 */
+	public function highlight_max_alternate_field_length($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.maxAlternateFieldLength');
+
+		$this->_highlight['hl.maxAlternateFieldLength'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.formatter param for the request.
+	 *
+	 * @param   mixed  $value  formatter name
+	 * @return  mixed
+	 */
+	public function highlight_formatter($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.formatter');
+
+		$this->_highlight['hl.formatter'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.simple.pre param for the request.
+	 *
+	 * @param   mixed  $value  text to appear before a highlighted term
+	 * @return  mixed
+	 */
+	public function highlight_simple_pre($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.simple.pre');
+
+		$this->_highlight['hl.simple.pre'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.simple.post param for the request.
+	 *
+	 * @param   mixed  $value  text to appear after a highlighted term
+	 * @return  mixed
+	 */
+	public function highlight_simple_post($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.simple.post');
+
+		$this->_highlight['hl.simple.post'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.fragmenter param for the request.
+	 *
+	 * @param   mixed  $value  name of text snippet generator
+	 * @return  mixed
+	 */
+	public function highlight_fragmenter($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.fragmenter');
+
+		$this->_highlight['hl.fragmenter'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.fragListBuilder param for the request.
+	 *
+	 * @param   mixed  $value  name of SolrFragListBuilder
+	 * @return  mixed
+	 */
+	public function highlight_frag_list_builder($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.fragListBuilder');
+
+		$this->_highlight['hl.fragListBuilder'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.fragmentsBuilder param for the request.
+	 *
+	 * @param   mixed  $value  name of SolrFragmentsBuilder
+	 * @return  mixed
+	 */
+	public function highlight_fragments_builder($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.fragmentsBuilder');
+
+		$this->_highlight['hl.fragmentsBuilder'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.useFastVectorHighlighter param for the request.
+	 *
+	 * @param   mixed  $value  if TRUE FastVectorHighlighter will be used
+	 * @return  mixed
+	 */
+	public function highlight_use_fast_vector_highlighter($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.useFastVectorHighlighter');
+
+		if ($value === TRUE)
+		{
+			$this->_highlight['hl.useFastVectorHighlighter'] = 'true';
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.usePhraseHighlighter param for the request.
+	 *
+	 * @param   mixed  $value  if TRUE SpanScorer will be used to highlight phrase terms
+	 * @return  mixed
+	 */
+	public function highlight_use_phrase_highlighter($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.usePhraseHighlighter');
+
+		if ($value === TRUE)
+		{
+			$this->_highlight['hl.usePhraseHighlighter'] = 'true';
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.highlightMultiTerm param for the request.
+	 *
+	 * @param   mixed  $value  enables highlighting for range/wildcard/fuzzy/prefix queries
+	 * @return  mixed
+	 */
+	public function highlight_highlight_multi_term($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.highlightMultiTerm');
+
+		if ($value === TRUE)
+		{
+			$this->_highlight['hl.highlightMultiTerm'] = 'true';
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.regex.slop param for the request.
+	 *
+	 * @param   mixed  $value  factor by which the regex fragmenter can stray
+	 * @return  mixed
+	 */
+	public function highlight_regex_slop($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.regex.slop');
+
+		$this->_highlight['hl.regex.slop'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.regex.pattern param for the request.
+	 *
+	 * @param   mixed  $value  the regular expression for fragmenting
+	 * @return  mixed
+	 */
+	public function highlight_regex_pattern($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.regex.pattern');
+
+		$this->_highlight['hl.regex.pattern'] = $value;
+		return $this;
+	}
+
+	/**
+	 * Sets and gets the hl.regex.maxAnalyzedChars param for the request.
+	 *
+	 * @param   mixed  $value  number of characters
+	 * @return  mixed
+	 */
+	public function highlight_regex_max_analyzed_chars($value = NULL)
+	{
+		if ( ! $value)
+			return Arr::get($this->_highlight, 'hl.regex.maxAnalyzedChars');
+
+		$this->_highlight['hl.regex.maxAnalyzedChars'] = $value;
 		return $this;
 	}
 
