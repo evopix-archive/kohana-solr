@@ -35,6 +35,11 @@ class Solr_Request_Read_Core extends Solr_Request {
 	protected $_more_like_this = array();
 
 	/**
+	 * @var  array  array of TermVector query params
+	 */
+	protected $_term_vector = array();
+
+	/**
 	 * @var  array  query parameters that can have multiple values
 	 */
 	protected $_multiple_params = array(
@@ -114,7 +119,14 @@ class Solr_Request_Read_Core extends Solr_Request {
 		'more_like_this_max_tokens' => 'mlt.maxntp',
 		'more_like_this_boost' => 'mlt.boost',
 		'more_like_this_query_fields' => 'mlt.qf',
-
+		'term_vector_term_frequency' => 'tv.tf',
+		'term_vector_document_frequency' => 'tv.df',
+		'term_vector_positions' => 'tv.positions',
+		'term_vector_offsets' => 'tv.offsets',
+		'term_vector_term_frequency_idf' => 'tv.tf_idf',
+		'term_vector_all' => 'tv.all',
+		'term_vector_fields' => 'tv.fl',
+		'term_vector_document_ids' => 'tv.docIds',
 	);
 
 	/**
@@ -140,6 +152,9 @@ class Solr_Request_Read_Core extends Solr_Request {
 				break;
 				case 'more':
 					$member_name = '_more_like_this';
+				break;
+				case 'term':
+					$member_name = '_term_vector';
 				break;
 				default:
 					$member_name = '_get';
