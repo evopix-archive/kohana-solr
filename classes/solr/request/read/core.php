@@ -30,6 +30,11 @@ class Solr_Request_Read_Core extends Solr_Request {
 	protected $_highlight = array();
 
 	/**
+	 * @var  array  array of MoreLikeThis query params
+	 */
+	protected $_more_like_this = array();
+
+	/**
 	 * @var  array  query parameters that can have multiple values
 	 */
 	protected $_multiple_params = array(
@@ -99,6 +104,17 @@ class Solr_Request_Read_Core extends Solr_Request {
 		'highlight_regex_slop' => 'hl.regex.slop',
 		'highlight_regex_pattern' => 'hl.regex.pattern',
 		'highlight_regex_max_analyzed_chars' => 'hl.regex.maxAnalyzedChars',
+		'more_like_this_count' => 'mlt.count',
+		'more_like_this_fields' => 'mlt.fl',
+		'more_like_this_min_term_freq' => 'mlt.mintf',
+		'more_like_this_min_doc_freq' => 'mlt.mindf',
+		'more_like_this_min_word_length' => 'mlt.minwl',
+		'more_like_this_max_word_length' => 'mlt.maxwl',
+		'more_like_this_max_query_terms' => 'mlt.maxqt',
+		'more_like_this_max_tokens' => 'mlt.maxntp',
+		'more_like_this_boost' => 'mlt.boost',
+		'more_like_this_query_fields' => 'mlt.qf',
+
 	);
 
 	public function __call($name, $args)
@@ -114,6 +130,9 @@ class Solr_Request_Read_Core extends Solr_Request {
 				break;
 				case 'highlight':
 					$member_name = '_highlight';
+				break;
+				case 'more':
+					$member_name = '_more_like_this';
 				break;
 				default:
 					$member_name = '_get';
