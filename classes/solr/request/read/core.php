@@ -152,6 +152,11 @@ class Solr_Request_Read_Core extends Solr_Request {
 				return $this;
 			}
 		}
+		else
+		{
+			throw new Solr_Exception('Invalid method :method called in :class',
+				array(':method' => $name, ':class' => get_class($this)));
+		}
 	}
 
 	/**
