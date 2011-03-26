@@ -117,6 +117,13 @@ class Solr_Request_Read_Core extends Solr_Request {
 
 	);
 
+	/**
+	 * Handles query params setting and getting.
+	 *
+	 * @param   string  $name  method name
+	 * @param   array   $args  method arguments
+	 * @return  mixed
+	 */
 	public function __call($name, $args)
 	{
 		if (array_key_exists($name, $this->_methods))
