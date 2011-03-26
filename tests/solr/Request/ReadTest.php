@@ -91,6 +91,8 @@ class Solr_Request_ReadTest extends Unittest_TestCase {
 			array('term_vector_all', 'true'),
 			array('term_vector_fields', array('price', 'sku')),
 			array('term_vector_document_ids', 'test'),
+			array('stats_fields', array('price', 'sku')),
+			array('stats_facet', 'status'),
 		);
 	}
 
