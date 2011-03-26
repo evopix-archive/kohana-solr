@@ -83,6 +83,14 @@ class Solr_Request_ReadTest extends Unittest_TestCase {
 			array('more_like_this_max_tokens', 10),
 			array('more_like_this_boost', 'true'),
 			array('more_like_this_query_fields', 'fieldOne^2.3 fieldTwo fieldThree^0.4'),
+			array('term_vector_term_frequency', 'true'),
+			array('term_vector_document_frequency', 'true'),
+			array('term_vector_positions', 'true'),
+			array('term_vector_offsets', 'true'),
+			array('term_vector_term_frequency_idf', 'true'),
+			array('term_vector_all', 'true'),
+			array('term_vector_fields', array('price', 'sku')),
+			array('term_vector_document_ids', 'test'),
 		);
 	}
 
