@@ -40,6 +40,11 @@ class Solr_Request_Read_Core extends Solr_Request {
 	protected $_term_vector = array();
 
 	/**
+	 * @var  array  array of Stats query params
+	 */
+	protected $_stats = array();
+
+	/**
 	 * @var  array  query parameters that can have multiple values
 	 */
 	protected $_multiple_params = array(
@@ -127,6 +132,8 @@ class Solr_Request_Read_Core extends Solr_Request {
 		'term_vector_all' => 'tv.all',
 		'term_vector_fields' => 'tv.fl',
 		'term_vector_document_ids' => 'tv.docIds',
+		'stats_fields' => 'stats.field',
+		'stats_facet' => 'stats.facet',
 	);
 
 	/**
@@ -155,6 +162,9 @@ class Solr_Request_Read_Core extends Solr_Request {
 				break;
 				case 'term':
 					$member_name = '_term_vector';
+				break;
+				case 'stats':
+					$member_name = '_stats';
 				break;
 				default:
 					$member_name = '_get';
