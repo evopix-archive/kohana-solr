@@ -105,6 +105,19 @@ class Solr_Request_ReadTest extends Unittest_TestCase {
 			array('spellcheck_max_collation_tries', 5),
 			array('spellcheck_collate_extended_results', FALSE),
 			array('spellcheck_accuracy', 1.0),
+			array('terms_fields', 'name'),
+			array('terms_lower', 'a'),
+			array('terms_lower_include', FALSE),
+			array('terms_min_count', 3),
+			array('terms_max_count', 10),
+			array('terms_prefix', 'at'),
+			array('terms_regex', 'at.*'),
+			array('terms_regex_flag', 'case_insensitive'),
+			array('terms_limit', 10),
+			array('terms_upper', 't'),
+			array('terms_upper_include', FALSE),
+			array('terms_raw', TRUE),
+			array('terms_sort', 'count'),
 		);
 	}
 
