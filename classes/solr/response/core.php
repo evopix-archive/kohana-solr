@@ -70,4 +70,14 @@ class Solr_Response_Core {
 		return $this->_data->responseHeader;
 	}
 
+	/**
+	 * Gets the request params.
+	 *
+	 * @return  object
+	 */
+	public function params()
+	{
+		return $this->header()->params;
+	}
+
 }
