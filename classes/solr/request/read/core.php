@@ -45,6 +45,11 @@ class Solr_Request_Read_Core extends Solr_Request {
 	protected $_stats = array();
 
 	/**
+	 * @var  array  array of Spellcheck query params
+	 */
+	protected $_spellcheck = array();
+
+	/**
 	 * @var  array  query parameters that can have multiple values
 	 */
 	protected $_multiple_params = array(
@@ -134,7 +139,38 @@ class Solr_Request_Read_Core extends Solr_Request {
 		'term_vector_document_ids' => 'tv.docIds',
 		'stats_fields' => 'stats.field',
 		'stats_facet' => 'stats.facet',
+		'spellcheck_query' => 'spellcheck.q',
+		'spellcheck_build' => 'spellcheck.build',
+		'spellcheck_reload' => 'spellcheck.reload',
+		'spellcheck_dictionary' => 'spellcheck.dictionary',
+		'spellcheck_count' => 'spellcheck.count',
+		'spellcheck_only_more_popular' => 'spellcheck.onlyMorePopular',
+		'spellcheck_extended_results' => 'spellcheck.extendedResults',
+		'spellcheck_collate' => 'spellcheck.collate',
+		'spellcheck_max_collations' => 'spellcheck.maxCollations',
+		'spellcheck_max_collation_tries' => 'spellcheck.maxCollationTries',
+		'spellcheck_collate_extended_results' => 'spellcheck.collateExtendedResults',
+		'spellcheck_accuracy' => 'spellcheck.accuracy',
 	);
+
+	/**
+	 * Adds a spellcheck.<dictionary>.<key> parameter. This can't be defined
+	 * as a magic method like the other methods because it takes non-standard 
+	 * parameters.
+	 *
+	 * @param   string  $dictionary  the dictionary name
+	 * @param   string  $key         the dictionary key
+	 * @param   string  $value       the dictionary value
+	 * @return  mixed
+	 */
+	public function spellcheck_dictionary_key($dictionary, $key, $value = NULL)
+	{
+		if ($value === NULL)
+			return Arr::get($this->_spellcheck, 'spellcheck.'.$dictionary.'.'.$key);
+
+		$this->_spellcheck['spellcheck.'.$dictionary.'.'.$key] = $value;
+		return $this;
+	}
 
 	/**
 	 * Handles query params setting and getting.
