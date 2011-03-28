@@ -269,10 +269,7 @@ class Solr_Request_Read_Core extends Solr_Request {
 	{
 		foreach ($params as $param => $value)
 		{
-			if (method_exists($this, $param))
-			{
-				$this->$param($value);
-			}
+			$this->$param($value);
 		}
 
 		return $this;
