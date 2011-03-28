@@ -33,7 +33,7 @@ class Solr_Response_Core {
 	/**
 	 * Gets the raw parsed response data.
 	 *
-	 * @return  SimpleXMLElement
+	 * @return  array
 	 */
 	public function data()
 	{
@@ -47,7 +47,7 @@ class Solr_Response_Core {
 	 */
 	public function status()
 	{
-		return (int) $this->header()->status;
+		return (int) Arr::get($this->header(), 'status');
 	}
 
 	/**
@@ -57,17 +57,27 @@ class Solr_Response_Core {
 	 */
 	public function query_time()
 	{
-		return (int) $this->header()->QTime;
+		return (int) Arr::get($this->header(), 'QTime');
 	}
 
 	/**
 	 * Gets the full response header.
 	 *
-	 * @return  SimpleXMLElement
+	 * @return  array
 	 */
 	public function header()
 	{
-		return $this->_data->responseHeader;
+		return Arr::get($this->_data, 'responseHeader');
+	}
+
+	/**
+	 * Gets the full response.
+	 *
+	 * @return  object
+	 */
+	public function response()
+	{
+		return Arr::get($this->_data, 'response');
 	}
 
 	/**
@@ -77,7 +87,7 @@ class Solr_Response_Core {
 	 */
 	public function params()
 	{
-		return $this->header()->params;
+		return Arr::get($this->header(), 'params');
 	}
 
 }

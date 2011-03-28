@@ -10,14 +10,14 @@
 class Solr_Reader_JSON_Core extends Solr_Reader {
 
 	/**
-	 * Parses the json response into an object.
+	 * Parses the json response into an array.
 	 *
-	 * @return  object
+	 * @return  array
 	 */
 	public function parse()
 	{
 		$body = $this->_response->body();
-		return json_decode($body);
+		return json_decode($body, TRUE);
 	}
 
 }
