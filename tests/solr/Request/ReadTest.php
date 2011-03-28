@@ -142,8 +142,6 @@ class Solr_Request_ReadTest extends Unittest_TestCase {
 	 * Tests Solr_Request_Read::spellcheck_dictionary_key()
 	 *
 	 * @test
-	 * @param  string  $method  name of method to call
-	 * @param  mixed   $value   value to set on method
 	 */
 	public function test_spellcheck_dictionary_key()
 	{
@@ -152,6 +150,33 @@ class Solr_Request_ReadTest extends Unittest_TestCase {
 		$this->assertNull($request->spellcheck_dictionary_key('test_key', 'test_value'));
 		$this->assertTrue($request->spellcheck_dictionary_key('test_key', 'test_value', 'test') === $request);
 		$this->assertEquals($request->spellcheck_dictionary_key('test_key', 'test_value'), 'test');
+	}
+
+	/**
+	 * Tests Solr_Request_Read::params()
+	 *
+	 * @test
+	 */
+	public function test_params()
+	{
+		$request = new Solr_Request_Read('localhost:8983');
+
+		$params = array(
+			'query' => '*:*',
+			'filter_query' => 'popularity:[10 TO *]',
+			'offset' => 0,
+			'limit' => 20,
+			'sort' => 'score desc',
+			'fields' => array('id', 'name', 'price'),
+		);
+
+		$this->assertTrue($request->params($params) === $request);
+		$this->assertEquals($request->query(), '*:*');
+		$this->assertEquals($request->filter_query(), 'popularity:[10 TO *]');
+		$this->assertEquals($request->offset(), 0);
+		$this->assertEquals($request->limit(), 20);
+		$this->assertEquals($request->sort(), 'score desc');
+		$this->assertEquals(count($request->fields()), 3);
 	}
 
 }
