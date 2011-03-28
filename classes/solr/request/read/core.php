@@ -17,7 +17,7 @@ class Solr_Request_Read_Core extends Solr_Request {
 	/**
 	 * @var array    query parameters
 	 */
-	protected $_get;
+	protected $_common;
 
 	/**
 	 * @var  array  array of facet query params
@@ -227,7 +227,7 @@ class Solr_Request_Read_Core extends Solr_Request {
 					$member_name = '_terms';
 				break;
 				default:
-					$member_name = '_get';
+					$member_name = '_common';
 			}
 
 			$param_name = $this->_methods[$name];
@@ -292,10 +292,10 @@ class Solr_Request_Read_Core extends Solr_Request {
 
 		if ( ! empty($this->_facet))
 		{
-			$this->_get['facet'] = 'true';
+			$this->_common['facet'] = 'true';
 		}
 
-		$params = array_merge($this->_get, $this->_facet);
+		$params = array_merge($this->_common, $this->_facet);
 
 		foreach ($params as $name => $value)
 		{
