@@ -220,6 +220,12 @@ class Solr_Request_Read_Core extends Solr_Request {
 				case 'stats':
 					$member_name = '_stats';
 				break;
+				case 'spellcheck':
+					$member_name = '_spellcheck';
+				break;
+				case 'terms':
+					$member_name = '_terms';
+				break;
 				default:
 					$member_name = '_get';
 			}
