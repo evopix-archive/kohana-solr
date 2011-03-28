@@ -93,6 +93,18 @@ class Solr_Request_ReadTest extends Unittest_TestCase {
 			array('term_vector_document_ids', 'test'),
 			array('stats_fields', array('price', 'sku')),
 			array('stats_facet', 'status'),
+			array('spellcheck_query', 'hell ultrashar'),
+			array('spellcheck_build', TRUE),
+			array('spellcheck_reload', TRUE),
+			array('spellcheck_dictionary', 'default'),
+			array('spellcheck_count', '10'),
+			array('spellcheck_only_more_popular', TRUE),
+			array('spellcheck_extended_results', TRUE),
+			array('spellcheck_collate', TRUE),
+			array('spellcheck_max_collations', 5),
+			array('spellcheck_max_collation_tries', 5),
+			array('spellcheck_collate_extended_results', FALSE),
+			array('spellcheck_accuracy', 1.0),
 		);
 	}
 
@@ -111,6 +123,22 @@ class Solr_Request_ReadTest extends Unittest_TestCase {
 		$this->assertNull($request->$method());
 		$this->assertTrue($request->$method($value) === $request);
 		$this->assertEquals($request->$method(), $value);
+	}
+
+	/**
+	 * Tests Solr_Request_Read::spellcheck_dictionary_key()
+	 *
+	 * @test
+	 * @param  string  $method  name of method to call
+	 * @param  mixed   $value   value to set on method
+	 */
+	public function test_spellcheck_dictionary_key()
+	{
+		$request = new Solr_Request_Read('localhost:8983');
+
+		$this->assertNull($request->spellcheck_dictionary_key('test_key', 'test_value'));
+		$this->assertTrue($request->spellcheck_dictionary_key('test_key', 'test_value', 'test') === $request);
+		$this->assertEquals($request->spellcheck_dictionary_key('test_key', 'test_value'), 'test');
 	}
 
 }
