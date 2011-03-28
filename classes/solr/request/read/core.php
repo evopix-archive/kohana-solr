@@ -50,6 +50,11 @@ class Solr_Request_Read_Core extends Solr_Request {
 	protected $_spellcheck = array();
 
 	/**
+	 * @var  array  array of Terms query params
+	 */
+	protected $_terms = array();
+
+	/**
 	 * @var  array  query parameters that can have multiple values
 	 */
 	protected $_multiple_params = array(
@@ -151,6 +156,19 @@ class Solr_Request_Read_Core extends Solr_Request {
 		'spellcheck_max_collation_tries' => 'spellcheck.maxCollationTries',
 		'spellcheck_collate_extended_results' => 'spellcheck.collateExtendedResults',
 		'spellcheck_accuracy' => 'spellcheck.accuracy',
+		'terms_fields' => 'terms.fl',
+		'terms_lower' => 'terms.lower',
+		'terms_lower_include' => 'terms.lower.incl',
+		'terms_min_count' => 'terms.mincount',
+		'terms_max_count' => 'terms.maxcount',
+		'terms_prefix' => 'terms.prefix',
+		'terms_regex' => 'terms.regex',
+		'terms_regex_flag' => 'terms.regex.flag',
+		'terms_limit' => 'terms.limit',
+		'terms_upper' => 'terms.upper',
+		'terms_upper_include' => 'terms.upper.incl',
+		'terms_raw' => 'terms.raw',
+		'terms_sort' => 'terms.sort',
 	);
 
 	/**
