@@ -305,7 +305,47 @@ class Solr_Request_Read_Core extends Solr_Request {
 			$this->_common['facet'] = 'true';
 		}
 
-		$params = array_merge($this->_common, $this->_facet);
+		if ( ! empty($this->_highlight))
+		{
+			$this->_common['hl'] = 'true';
+		}
+
+		if ( ! empty($this->_more_like_this))
+		{
+			$this->_common['mlt'] = 'true';
+		}
+
+		if ( ! empty($this->_term_vector))
+		{
+			$this->_common['tv'] = 'true';
+		}
+
+		if ( ! empty($this->_stats))
+		{
+			$this->_common['stats'] = 'true';
+		}
+
+		if ( ! empty($this->_spellcheck))
+		{
+			$this->_common['spellcheck'] = 'true';
+		}
+
+		if ( ! empty($this->_terms))
+		{
+			$this->_common['terms'] = 'true';
+		}
+
+		$params = array_merge(
+			$this->_common,
+			$this->_facet,
+			$this->_highlight,
+			$this->_more_like_this,
+			$this->_term_vector,
+			$this->_stats,
+			$this->_spellcheck,
+			$this->_terms,
+			$this->_shards
+		);
 
 		foreach ($params as $name => $value)
 		{
