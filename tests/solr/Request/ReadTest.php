@@ -118,6 +118,8 @@ class Solr_Request_ReadTest extends Unittest_TestCase {
 			array('terms_upper_include', FALSE),
 			array('terms_raw', TRUE),
 			array('terms_sort', 'count'),
+			array('shards', array('localhost:8983/solr', 'localhost:7574/solr')),
+			array('shards_query_type', 'test'),
 		);
 	}
 
