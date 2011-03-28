@@ -55,6 +55,11 @@ class Solr_Request_Read_Core extends Solr_Request {
 	protected $_terms = array();
 
 	/**
+	 * @var  array  array of Shards query params
+	 */
+	protected $_shards = array();
+
+	/**
 	 * @var  array  query parameters that can have multiple values
 	 */
 	protected $_multiple_params = array(
@@ -169,6 +174,8 @@ class Solr_Request_Read_Core extends Solr_Request {
 		'terms_upper_include' => 'terms.upper.incl',
 		'terms_raw' => 'terms.raw',
 		'terms_sort' => 'terms.sort',
+		'shards' => 'shards',
+		'shards_query_type' => 'shards.qt',
 	);
 
 	/**
@@ -225,6 +232,9 @@ class Solr_Request_Read_Core extends Solr_Request {
 				break;
 				case 'terms':
 					$member_name = '_terms';
+				break;
+				case 'shards':
+					$member_name = '_shards';
 				break;
 				default:
 					$member_name = '_common';
