@@ -10,31 +10,6 @@
 class Solr_Core {
 
 	/**
-	 * @var  string  url of the host to use
-	 */
-	public static $host;
-
-	/**
-	 * @var  string  name of the write format to use
-	 */
-	public static $write_format;
-
-	/**
-	 * @var  string  name of the write response format to use
-	 */
-	public static $write_response_format;
-
-	/**
-	 * @var  string  name of the read format to use
-	 */
-	public static $read_format;
-
-	/**
-	 * @var  string  name of the read response format to use
-	 */
-	public static $read_response_format;
-
-	/**
 	 * @var  array  Solr instances
 	 */
 	public static $instances = array();
