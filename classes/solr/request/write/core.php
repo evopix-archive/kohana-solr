@@ -192,10 +192,10 @@ class Solr_Request_Write_Core extends Solr_Request {
 	/**
 	 * Sets and gets a delete by id message for the request.
 	 *
-	 * @param   array  $documents  array of documents to add/update
+	 * @param   mixed  $id  array or id of document(s) to delete
 	 * @return  mixed
 	 */
-	public function delete(array $id = NULL)
+	public function delete($id = NULL)
 	{
 		if ( ! $id)
 			return $this->_data('delete', 'id');
@@ -207,10 +207,10 @@ class Solr_Request_Write_Core extends Solr_Request {
 	/**
 	 * Sets and gets a delete by query message for the request.
 	 *
-	 * @param   string  $query  search query for documents to delete
+	 * @param   mixed  $query  search query for documents to delete
 	 * @return  mixed
 	 */
-	public function delete_by_query(array $query = NULL)
+	public function delete_by_query($query = NULL)
 	{
 		if ( ! $query)
 			return $this->_data('delete', 'query');
