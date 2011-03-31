@@ -42,9 +42,11 @@ class Solr_Core {
 			{
 				$config = Kohana::config('solr')->$name;
 			}
+
+			return Solr::$instances[$name] = new Solr($config);
 		}
 
-		return Solr::$instances[$name] = new Solr($config);
+		return Solr::$instances[$name];
 	}
 
 	/**
