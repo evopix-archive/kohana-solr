@@ -6,4 +6,9 @@ return array(
 		'writer' => 'xml',
 		'reader' => 'json',
 	),
+	'unittest' => array(
+		'host' => '127.127.0.1.:8999/solr/products/',
+		'writer' => 'xml',
+		'reader' => 'json',
+	),
 );
